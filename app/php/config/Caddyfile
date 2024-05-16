@@ -4,14 +4,9 @@
 	ocsp_stapling off
 	persist_config off
 
-	servers :443 {
+	servers :8443 {
 		name https
-		protocols h1 h2 h3
-	}
-
-	servers :80 {
-		name http
-		protocols h1
+		protocols h1 h2
 	}
 
 	frankenphp {
@@ -24,26 +19,14 @@
 	order php before file_server
 }
 
-:80 {
-	skip_log *
-
-	handle /health-check {
-		@goingDown vars {http.shutting_down} true
-		respond @goingDown "going down in {http.time_until_shutdown}" 503
-		respond 200
-	}
-
-	respond 418
-}
-
-:443 {
+:8443 {
 	root * /app/public
 
 	skip_log *
 
 	encode zstd br gzip
 
-	tls /etc/caddy/cert/tls.crt /etc/caddy/cert/tls.key
+	tls /config/cert/tls.crt /config/cert/tls.key
 
 	php_server {
 		resolve_root_symlink
