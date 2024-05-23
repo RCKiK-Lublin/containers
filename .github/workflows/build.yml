@@ -29,22 +29,3 @@ jobs:
         context: ./app/server
         push: true
         tags: ghcr.io/rckik-lublin/app:server
-  store:
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
-    name: build store image
-    steps:
-      - name: checkout repository
-        uses: actions/checkout@v4
-      - name: login to ghcr.io
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: build and push image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./app/store
-          push: true
-          tags: ghcr.io/rckik-lublin/app:store
