@@ -3,7 +3,7 @@ FROM dunglas/frankenphp:1.1.5-php8.3.7
 COPY --from=postgres:15 /usr/bin/pg_dump /usr/bin/pg_dump
 
 RUN set -xe \
- && install-php-extensions opcache redis pdo_pgsql gd decimal bcmath intl zip \
+ && install-php-extensions opcache pdo_pgsql gd decimal bcmath intl zip \
  && setcap -r /usr/local/bin/frankenphp
 
 COPY config/php.ini /usr/local/etc/php/php.ini
