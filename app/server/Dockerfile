@@ -1,9 +1,8 @@
 FROM dunglas/frankenphp:1.1.5-php8.3.7
 
-COPY --from=postgres:15 /usr/bin/pg_dump /usr/bin/pg_dump
-
 RUN set -xe \
  && install-php-extensions opcache pdo_pgsql gd decimal bcmath intl zip \
+ && apt-get update && apt-get install postgresql-client-15 -y && rm -rf /var/lib/apt/lists/* \
  && setcap -r /usr/local/bin/frankenphp
 
 COPY config/php.ini /usr/local/etc/php/php.ini
